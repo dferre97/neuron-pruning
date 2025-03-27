@@ -9,6 +9,7 @@ Training metrics (training and test accuracy) are recorded and plotted.
 The plots are saved in a folder named results/{day-hour-minutes-seconds}.
 """
 
+import math
 import os
 import datetime
 import torch
@@ -69,10 +70,14 @@ class NeuronPopupLayer(nn.Module):
         self.k = k  # Fraction of neurons to keep
         
         # Randomly initialize weights and biases, and freeze them.
-        self.weights = nn.Parameter(torch.randn(out_features, in_features), requires_grad=False)
+        self.weights = nn.Parameter(torch.empty(out_features, in_features), requires_grad=False)
         self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
         # Only the scores are trainable.
-        self.scores = nn.Parameter(torch.ones(out_features))
+        self.scores = nn.Parameter(torch.empty(out_features))
+
+        # Initialize weights and scores using Kaiming Normal and Uniform
+        nn.init.kaiming_normal_(self.weights, mode="fan_in", nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.scores, a=math.sqrt(5))
 
     def forward(self, x):
         # Get the neuron subset mask
@@ -102,10 +107,14 @@ class WeightPopupLayer(nn.Module):
         self.k = k
         
         # Randomly initialize weights and biases, and freeze them.
-        self.weights = nn.Parameter(torch.randn(out_features, in_features), requires_grad=False)
+        self.weights = nn.Parameter(torch.empty(out_features, in_features), requires_grad=False)
         self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
         # Only the scores are trainable.
-        self.scores = nn.Parameter(torch.ones(out_features, in_features))
+        self.scores = nn.Parameter(torch.empty(out_features, in_features))
+        
+        # Initialize weights and scores using Kaiming Normal
+        nn.init.kaiming_normal_(self.weights, mode="fan_in", nonlinearity='relu')
+        nn.init.kaiming_uniform_(self.scores, a=math.sqrt(5))
 
     def forward(self, x):
         weight_mask = GetWeightSubset.apply(self.scores.abs(), self.k)
@@ -199,7 +208,7 @@ def main():
     
     # Dimensions (28x28 images, 10 classes)
     input_dim = 28 * 28
-    hidden_dim = 256
+    hidden_dim = 4096
     output_dim = 10
     
     # Initialize models
@@ -249,7 +258,33 @@ def main():
     now = datetime.datetime.now().strftime("%d-%H-%M-%S")
     results_dir = os.path.join("results", now)
     os.makedirs(results_dir, exist_ok=True)
-    
+
+    # ----------------------------
+    # Save configuration details
+    # ----------------------------
+    config_path = os.path.join(results_dir, 'config.txt')
+    with open(config_path, 'w') as f:
+        f.write("Experiment Configuration\n")
+        f.write("=========================\n\n")
+        f.write("Models:\n")
+        f.write("1. Neuron-level Popup Model: Prunes entire neurons using a score-based selection method.\n")
+        f.write("2. Weight-level Popup Model: Prunes individual weights using a score-based selection method.\n")
+        f.write("3. Standard MLP: A fully connected network trained normally.\n\n")
+        f.write("Hyperparameters:\n")
+        f.write(f"Batch size: {batch_size}\n")
+        f.write(f"Epochs: {epochs}\n")
+        f.write(f"Learning rate: {learning_rate}\n")
+        f.write(f"Fraction of neurons/weights to keep (k): {k}\n\n")
+        f.write("Dataset:\n")
+        f.write("Fashion MNIST (28x28 grayscale images, 10 classes)\n\n")
+        f.write("Architecture:\n")
+        f.write(f"Input dimension: {input_dim}\n")
+        f.write(f"Hidden dimension: {hidden_dim}\n")
+        f.write(f"Output dimension: {output_dim}\n\n")
+        f.write(f"Results directory: {results_dir}\n")
+
+    print(f"Configuration saved to {config_path}")
+
     # ----------------------------
     # Plotting the results
     # ----------------------------

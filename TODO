@@ -1,0 +1,5 @@
+# TODO List for Neuron Pruning Project
+
+## General Tasks
+- [ ] Check weights, biases, and scores initialization
+
