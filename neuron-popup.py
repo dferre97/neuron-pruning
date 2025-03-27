@@ -68,14 +68,17 @@ class NeuronPopupLayer(nn.Module):
         self.out_features = out_features
         self.k = k  # Fraction of neurons to keep
         
-        self.weights = nn.Parameter(torch.randn(out_features, in_features))
-        self.bias = nn.Parameter(torch.zeros(out_features))
-        self.scores = nn.Parameter(torch.ones(out_features))  # One score per neuron
+        # Randomly initialize weights and biases, and freeze them.
+        self.weights = nn.Parameter(torch.randn(out_features, in_features), requires_grad=False)
+        self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
+        # Only the scores are trainable.
+        self.scores = nn.Parameter(torch.ones(out_features))
 
     def forward(self, x):
+        # Get the neuron subset mask
         neuron_mask = GetNeuronSubset.apply(self.scores.abs(), self.k)
-        pruned_weights = self.weights * neuron_mask[:, None]
-        pruned_bias = self.bias * neuron_mask
+        pruned_weights = self.weights * neuron_mask[:, None]  # Mask applied per neuron
+        pruned_bias = self.bias * neuron_mask  # Mask applied to biases
         return F.linear(x, pruned_weights, pruned_bias)
 
 class NeuronPopupNetwork(nn.Module):
@@ -98,8 +101,10 @@ class WeightPopupLayer(nn.Module):
         self.out_features = out_features
         self.k = k
         
-        self.weights = nn.Parameter(torch.randn(out_features, in_features))
-        self.bias = nn.Parameter(torch.zeros(out_features))
+        # Randomly initialize weights and biases, and freeze them.
+        self.weights = nn.Parameter(torch.randn(out_features, in_features), requires_grad=False)
+        self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
+        # Only the scores are trainable.
         self.scores = nn.Parameter(torch.ones(out_features, in_features))
 
     def forward(self, x):
