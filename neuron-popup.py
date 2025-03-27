@@ -73,11 +73,11 @@ class NeuronPopupLayer(nn.Module):
         self.weights = nn.Parameter(torch.empty(out_features, in_features), requires_grad=False)
         self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
         # Only the scores are trainable.
-        self.scores = nn.Parameter(torch.empty(out_features))
+        self.scores = nn.Parameter(torch.ones(out_features))
 
         # Initialize weights and scores using Kaiming Normal and Uniform
         nn.init.kaiming_normal_(self.weights, mode="fan_in", nonlinearity='relu')
-        nn.init.kaiming_uniform_(self.scores, a=math.sqrt(5))
+        # nn.init.kaiming_uniform_(self.scores, a=math.sqrt(5)) # doesn't work because of tensor shape, try to find good initialization for neuron scores..
 
     def forward(self, x):
         # Get the neuron subset mask
@@ -208,7 +208,7 @@ def main():
     
     # Dimensions (28x28 images, 10 classes)
     input_dim = 28 * 28
-    hidden_dim = 4096
+    hidden_dim = 512
     output_dim = 10
     
     # Initialize models

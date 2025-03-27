@@ -1,5 +1,5 @@
 # TODO List for Neuron Pruning Project
 
 ## General Tasks
-- [ ] Check weights, biases, and scores initialization
-
+- [X] Check weights, biases, and scores initialization
+- [ ] Understand best scores initialization for neuron pruning (can't directly apply Kaiming uniform as in Ramanujan)
