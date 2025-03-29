@@ -1,0 +1,26 @@
+07-48-21 - Experiment started
+07-48-21 - Using device: cuda
+07-48-21 - Configuration saved to results\28-03-25_07-48-21\config.txt
+07-48-21 - 
+Training Standard MLP Model
+07-48-27 - Standard Model - Initial Train Accuracy: 12.73%
+07-48-33 - Epoch 1: Train Loss: 0.5509, Train Accuracy: 80.06%
+07-48-34 - Standard MLP - Epoch 1: Test Accuracy: 81.62%
+07-48-41 - Epoch 2: Train Loss: 0.4195, Train Accuracy: 84.82%
+07-48-42 - Standard MLP - Epoch 2: Test Accuracy: 84.02%
+07-48-48 - Epoch 3: Train Loss: 0.3874, Train Accuracy: 85.95%
+07-48-49 - Standard MLP - Epoch 3: Test Accuracy: 83.22%
+07-48-56 - Epoch 4: Train Loss: 0.3665, Train Accuracy: 86.69%
+07-48-57 - Standard MLP - Epoch 4: Test Accuracy: 85.18%
+07-49-04 - Epoch 5: Train Loss: 0.3539, Train Accuracy: 87.00%
+07-49-05 - Standard MLP - Epoch 5: Test Accuracy: 86.09%
+07-49-12 - Epoch 6: Train Loss: 0.3411, Train Accuracy: 87.46%
+07-49-13 - Standard MLP - Epoch 6: Test Accuracy: 85.94%
+07-49-20 - Epoch 7: Train Loss: 0.3310, Train Accuracy: 87.94%
+07-49-21 - Standard MLP - Epoch 7: Test Accuracy: 85.95%
+07-49-28 - Epoch 8: Train Loss: 0.3218, Train Accuracy: 88.28%
+07-49-29 - Standard MLP - Epoch 8: Test Accuracy: 86.32%
+07-49-35 - Epoch 9: Train Loss: 0.3147, Train Accuracy: 88.59%
+07-49-36 - Standard MLP - Epoch 9: Test Accuracy: 86.82%
+07-49-43 - Epoch 10: Train Loss: 0.3080, Train Accuracy: 88.65%
+07-49-44 - Standard MLP - Epoch 10: Test Accuracy: 85.90%

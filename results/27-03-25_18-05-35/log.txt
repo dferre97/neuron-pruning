@@ -1,0 +1,11 @@
+18-05-35 - Experiment started
+18-05-37 - Using device: cuda
+18-05-37 - Configuration saved to results\27-03-25_18-05-35\config.txt
+18-05-37 - Training Neuron-level Popup Model
+18-05-44 - Neuron Model - Initial Train Accuracy: 10.00%
+18-05-52 - Epoch 1: Train Loss: 53.4389, Train Accuracy: 10.38%
+18-05-53 - Neuron Model - Epoch 1: Test Accuracy: 10.00%
+18-06-02 - Epoch 2: Train Loss: 50.7421, Train Accuracy: 10.47%
+18-06-03 - Neuron Model - Epoch 2: Test Accuracy: 9.70%
+18-06-12 - Epoch 3: Train Loss: 62.7419, Train Accuracy: 10.24%
+18-06-13 - Neuron Model - Epoch 3: Test Accuracy: 10.00%

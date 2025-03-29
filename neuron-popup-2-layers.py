@@ -4,9 +4,9 @@ This script compares three approaches on Fashion MNIST:
 2. Weight-level Popup Model (Original Edge-Popup): Prunes individual weights using score-based selection.
 3. Standard MLP: A baseline fully connected network trained normally.
 
-All models use the same architecture (2 layers with the same number of neurons).
+All models use the same architecture (3 layers: 2 hidden layers with the same number of neurons).
 Training metrics (training and test accuracy) are recorded and plotted.
-The plots are saved in a folder named results/{day-hour-minutes-seconds}.
+The plots are saved in a folder named results_2hl/{day-hour-minutes-seconds}.
 """
 
 import logging
@@ -72,7 +72,7 @@ class NeuronPopupLayer(nn.Module):
         
         # Randomly initialize weights and biases, and freeze them.
         # self.weights = nn.Parameter(torch.empty(out_features, in_features), requires_grad=False)
-        self.weights = nn.Parameter(torch.randn(out_features, in_features), requires_grad=False)
+        self.weights = nn.Parameter(torch.empty(out_features, in_features), requires_grad=False)
         self.bias = nn.Parameter(torch.zeros(out_features), requires_grad=False)
         # Only the scores are trainable.
         self.scores = nn.Parameter(torch.ones(out_features))
@@ -99,12 +99,14 @@ class NeuronPopupNetwork(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, k=0.5):
         super().__init__()
         self.fc1 = NeuronPopupLayer(input_dim, hidden_dim, k)
-        self.fc2 = NeuronPopupLayer(hidden_dim, output_dim, k)
+        self.fc2 = NeuronPopupLayer(hidden_dim, hidden_dim, k)  # Added second hidden layer
+        self.fc3 = NeuronPopupLayer(hidden_dim, output_dim, k)
     
     def forward(self, x):
         x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = F.relu(self.fc2(x))  # Forward pass through second hidden layer
+        x = self.fc3(x)
         return x
 
 # Weight-level Popup Model: Prunes individual weights.
@@ -134,12 +136,14 @@ class WeightPopupNetwork(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim, k=0.5):
         super().__init__()
         self.fc1 = WeightPopupLayer(input_dim, hidden_dim, k)
-        self.fc2 = WeightPopupLayer(hidden_dim, output_dim, k)
+        self.fc2 = WeightPopupLayer(hidden_dim, hidden_dim, k)  # Added second hidden layer
+        self.fc3 = WeightPopupLayer(hidden_dim, output_dim, k)
     
     def forward(self, x):
         x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = F.relu(self.fc2(x))  # Forward pass through second hidden layer
+        x = self.fc3(x)
         return x
 
 # Standard MLP: A normal fully connected network.
@@ -147,12 +151,14 @@ class StandardMLP(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, output_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim)  # Added second hidden layer
+        self.fc3 = nn.Linear(hidden_dim, output_dim)
     
     def forward(self, x):
         x = x.view(x.size(0), -1)
         x = F.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = F.relu(self.fc2(x))  # Forward pass through second hidden layer
+        x = self.fc3(x)
         return x
 
 # ----------------------------
@@ -202,12 +208,6 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using device: {device}")
     
-    # Hyperparameters
-    batch_size = 64
-    epochs = 10
-    k = 0.5  # Fraction of neurons/weights to keep for popup models
-    learning_rate = 0.01
-    
     # Data preparation: Fashion MNIST
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -218,11 +218,6 @@ def main():
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
     
-    # Dimensions (28x28 images, 10 classes)
-    input_dim = 28 * 28
-    hidden_dim = 50
-    output_dim = 10
-
     # ----------------------------
     # Save configuration details
     # ----------------------------
@@ -303,7 +298,7 @@ def main():
     plt.figure(figsize=(12, 5))
     
     # Global title with the size of the hidden layer
-    plt.suptitle(f"Hidden Layer: {hidden_dim}", fontsize=16)
+    plt.suptitle(f"2 Hidden Layers size: {hidden_dim}", fontsize=16)
     
     # Plot training accuracy
     plt.subplot(1, 2, 1)
@@ -338,7 +333,7 @@ if __name__ == "__main__":
     # Create directory for saving results
     # ----------------------------
     now = datetime.datetime.now().strftime("%d-%m-%y_%H-%M-%S")
-    results_dir = os.path.join("results", now)
+    results_dir = os.path.join("results_2hl", now)
     os.makedirs(results_dir, exist_ok=True)
     
     # Set up logging
@@ -354,4 +349,16 @@ if __name__ == "__main__":
     )
     logger = logging.getLogger()
     logger.info("Experiment started")
+
+    # Hyperparameters
+    batch_size = 64
+    epochs = 10
+    k = 0.5  # Fraction of neurons/weights to keep for popup models
+    learning_rate = 0.01
+
+    # Dimensions (28x28 images, 10 classes)
+    input_dim = 28 * 28
+    hidden_dim = 2048  # Size of hidden layers
+    output_dim = 10
+
     main()

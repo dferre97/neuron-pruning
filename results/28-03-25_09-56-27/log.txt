@@ -1,0 +1,4 @@
+09-56-27 - Experiment started
+09-56-27 - Using device: cuda
+09-56-27 - Configuration saved to results\28-03-25_09-56-27\config.txt
+09-56-27 - Training Neuron-level Popup Model

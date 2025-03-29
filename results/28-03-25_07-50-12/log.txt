@@ -1,0 +1,12 @@
+07-50-12 - Experiment started
+07-50-12 - Using device: cuda
+07-50-12 - Configuration saved to results\28-03-25_07-50-12\config.txt
+07-50-12 - 
+Training Standard MLP Model
+07-50-17 - Standard Model - Initial Train Accuracy: 15.38%
+07-50-24 - Epoch 1: Train Loss: 0.9648, Train Accuracy: 68.82%
+07-50-25 - Standard MLP - Epoch 1: Test Accuracy: 71.53%
+07-50-33 - Epoch 2: Train Loss: 1.0601, Train Accuracy: 65.65%
+07-50-34 - Standard MLP - Epoch 2: Test Accuracy: 66.24%
+07-50-41 - Epoch 3: Train Loss: 1.0994, Train Accuracy: 63.46%
+07-50-42 - Standard MLP - Epoch 3: Test Accuracy: 50.81%

@@ -1,0 +1,72 @@
+11-33-48 - Experiment started
+11-33-48 - Using device: cuda
+11-33-48 - Configuration saved to results_2hl\28-03-25_11-33-48\config.txt
+11-33-48 - Training Neuron-level Popup Model
+11-33-55 - Neuron Model - Initial Train Accuracy: 11.45%
+11-34-02 - Epoch 1: Train Loss: 1.6720, Train Accuracy: 47.70%
+11-34-04 - Neuron Model - Epoch 1: Test Accuracy: 48.59%
+11-34-13 - Epoch 2: Train Loss: 1.6171, Train Accuracy: 49.09%
+11-34-15 - Neuron Model - Epoch 2: Test Accuracy: 49.13%
+11-34-24 - Epoch 3: Train Loss: 1.6079, Train Accuracy: 49.47%
+11-34-25 - Neuron Model - Epoch 3: Test Accuracy: 49.29%
+11-34-34 - Epoch 4: Train Loss: 1.6058, Train Accuracy: 49.31%
+11-34-36 - Neuron Model - Epoch 4: Test Accuracy: 49.07%
+11-34-46 - Epoch 5: Train Loss: 1.6035, Train Accuracy: 49.30%
+11-34-48 - Neuron Model - Epoch 5: Test Accuracy: 48.97%
+11-34-59 - Epoch 6: Train Loss: 1.6024, Train Accuracy: 49.30%
+11-35-00 - Neuron Model - Epoch 6: Test Accuracy: 49.29%
+11-35-13 - Epoch 7: Train Loss: 1.6014, Train Accuracy: 49.28%
+11-35-14 - Neuron Model - Epoch 7: Test Accuracy: 48.95%
+11-35-26 - Epoch 8: Train Loss: 1.5998, Train Accuracy: 49.28%
+11-35-28 - Neuron Model - Epoch 8: Test Accuracy: 49.35%
+11-35-40 - Epoch 9: Train Loss: 1.5994, Train Accuracy: 49.27%
+11-35-42 - Neuron Model - Epoch 9: Test Accuracy: 49.23%
+11-35-53 - Epoch 10: Train Loss: 1.5991, Train Accuracy: 49.24%
+11-35-55 - Neuron Model - Epoch 10: Test Accuracy: 49.30%
+11-35-55 - 
+Training Weight-level Popup Model (Original Edge-Popup)
+11-36-06 - Weight Model - Initial Train Accuracy: 11.56%
+11-36-19 - Epoch 1: Train Loss: 0.7450, Train Accuracy: 77.10%
+11-36-21 - Weight Model - Epoch 1: Test Accuracy: 78.52%
+11-36-34 - Epoch 2: Train Loss: 0.4899, Train Accuracy: 82.56%
+11-36-35 - Weight Model - Epoch 2: Test Accuracy: 80.77%
+11-36-48 - Epoch 3: Train Loss: 0.4507, Train Accuracy: 83.94%
+11-36-50 - Weight Model - Epoch 3: Test Accuracy: 83.75%
+11-37-02 - Epoch 4: Train Loss: 0.4245, Train Accuracy: 84.97%
+11-37-04 - Weight Model - Epoch 4: Test Accuracy: 83.04%
+11-37-17 - Epoch 5: Train Loss: 0.4108, Train Accuracy: 85.48%
+11-37-19 - Weight Model - Epoch 5: Test Accuracy: 84.21%
+11-37-32 - Epoch 6: Train Loss: 0.3997, Train Accuracy: 85.67%
+11-37-34 - Weight Model - Epoch 6: Test Accuracy: 84.75%
+11-37-48 - Epoch 7: Train Loss: 0.3877, Train Accuracy: 86.16%
+11-37-50 - Weight Model - Epoch 7: Test Accuracy: 84.88%
+11-38-03 - Epoch 8: Train Loss: 0.3780, Train Accuracy: 86.67%
+11-38-05 - Weight Model - Epoch 8: Test Accuracy: 84.46%
+11-38-18 - Epoch 9: Train Loss: 0.3711, Train Accuracy: 86.85%
+11-38-20 - Weight Model - Epoch 9: Test Accuracy: 85.94%
+11-38-32 - Epoch 10: Train Loss: 0.3637, Train Accuracy: 87.03%
+11-38-34 - Weight Model - Epoch 10: Test Accuracy: 84.92%
+11-38-34 - 
+Training Standard MLP Model
+11-38-43 - Standard Model - Initial Train Accuracy: 7.82%
+11-38-54 - Epoch 1: Train Loss: 0.5304, Train Accuracy: 80.70%
+11-38-55 - Standard MLP - Epoch 1: Test Accuracy: 84.34%
+11-39-06 - Epoch 2: Train Loss: 0.3738, Train Accuracy: 86.31%
+11-39-08 - Standard MLP - Epoch 2: Test Accuracy: 85.70%
+11-39-17 - Epoch 3: Train Loss: 0.3301, Train Accuracy: 87.92%
+11-39-18 - Standard MLP - Epoch 3: Test Accuracy: 87.39%
+11-39-27 - Epoch 4: Train Loss: 0.3033, Train Accuracy: 88.89%
+11-39-28 - Standard MLP - Epoch 4: Test Accuracy: 87.30%
+11-39-38 - Epoch 5: Train Loss: 0.2806, Train Accuracy: 89.64%
+11-39-39 - Standard MLP - Epoch 5: Test Accuracy: 87.18%
+11-39-48 - Epoch 6: Train Loss: 0.2680, Train Accuracy: 90.04%
+11-39-49 - Standard MLP - Epoch 6: Test Accuracy: 87.46%
+11-39-58 - Epoch 7: Train Loss: 0.2480, Train Accuracy: 90.70%
+11-39-59 - Standard MLP - Epoch 7: Test Accuracy: 88.48%
+11-40-08 - Epoch 8: Train Loss: 0.2389, Train Accuracy: 91.08%
+11-40-09 - Standard MLP - Epoch 8: Test Accuracy: 88.59%
+11-40-17 - Epoch 9: Train Loss: 0.2231, Train Accuracy: 91.64%
+11-40-19 - Standard MLP - Epoch 9: Test Accuracy: 88.48%
+11-40-27 - Epoch 10: Train Loss: 0.2165, Train Accuracy: 91.91%
+11-40-28 - Standard MLP - Epoch 10: Test Accuracy: 88.92%
+11-40-28 - Plot saved to results_2hl\28-03-25_11-33-48\training_results.png
