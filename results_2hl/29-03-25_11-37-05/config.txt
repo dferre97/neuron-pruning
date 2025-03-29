@@ -1,0 +1,23 @@
+Experiment Configuration
+=========================
+
+Models:
+1. Neuron-level Popup Model: Prunes entire neurons using a score-based selection method.
+2. Weight-level Popup Model: Prunes individual weights using a score-based selection method.
+3. Standard MLP: A fully connected network trained normally.
+
+Hyperparameters:
+Batch size: 64
+Epochs: 10
+Learning rate: 0.01
+Fraction of neurons/weights to keep (k): 0.5
+
+Dataset:
+Fashion MNIST (28x28 grayscale images, 10 classes)
+
+Architecture:
+Input dimension: 784
+Hidden dimension: 256
+Output dimension: 10
+
+Results directory: results_2hl\29-03-25_11-37-05

@@ -245,82 +245,93 @@ def main():
     logger.info(f"Configuration saved to {config_path}")
 
     # Initialize models
-    neuron_model = NeuronPopupNetwork(input_dim, hidden_dim, output_dim, k=k).to(device)
-    weight_model = WeightPopupNetwork(input_dim, hidden_dim, output_dim, k=k).to(device)
-    standard_model = StandardMLP(input_dim, hidden_dim, output_dim).to(device)
-    
-    optimizer_neuron = optim.SGD(neuron_model.parameters(), lr=learning_rate, momentum=0.9)
-    optimizer_weight = optim.SGD(weight_model.parameters(), lr=learning_rate, momentum=0.9)
-    optimizer_standard = optim.SGD(standard_model.parameters(), lr=learning_rate, momentum=0.9)
+    if TRAIN_NEURON_MODEL:
+        neuron_model = NeuronPopupNetwork(input_dim, hidden_dim, output_dim, k=k).to(device)
+        optimizer_neuron = optim.SGD(neuron_model.parameters(), lr=learning_rate, momentum=0.9)
+        neuron_train_acc = []
+        neuron_test_acc = []
 
-    # Containers for metrics
-    neuron_train_acc = []
-    neuron_test_acc = []
-    weight_train_acc = []
-    weight_test_acc = []
-    standard_train_acc = []
-    standard_test_acc = []
+    if TRAIN_WEIGHT_MODEL:
+        weight_model = WeightPopupNetwork(input_dim, hidden_dim, output_dim, k=k).to(device)
+        optimizer_weight = optim.SGD(weight_model.parameters(), lr=learning_rate, momentum=0.9)
+        weight_train_acc = []
+        weight_test_acc = []
+
+    if TRAIN_STANDARD_MODEL:
+        standard_model = StandardMLP(input_dim, hidden_dim, output_dim).to(device)
+        optimizer_standard = optim.SGD(standard_model.parameters(), lr=learning_rate, momentum=0.9)
+        standard_train_acc = []
+        standard_test_acc = []
     
-    # ----------------------------
-    # Training and evaluation loop  
-    # ----------------------------
-    logger.info("Training Neuron-level Popup Model")
-    logger.info(f"Neuron Model - Initial Train Accuracy: {test(neuron_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(neuron_model, device, train_loader, optimizer_neuron, epoch)
-        test_acc = test(neuron_model, device, test_loader)
-        neuron_train_acc.append(acc)
-        neuron_test_acc.append(test_acc)
-        logger.info(f"Neuron Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    # Training and evaluation loop
+    if TRAIN_NEURON_MODEL:
+        logger.info("Training Neuron-level Popup Model")
+        logger.info(f"Neuron Model - Initial Train Accuracy: {test(neuron_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(neuron_model, device, train_loader, optimizer_neuron, epoch)
+            test_acc = test(neuron_model, device, test_loader)
+            neuron_train_acc.append(acc)
+            neuron_test_acc.append(test_acc)
+            logger.info(f"Neuron Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
     
-    logger.info("\nTraining Weight-level Popup Model (Original Edge-Popup)")
-    logger.info(f"Weight Model - Initial Train Accuracy: {test(weight_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(weight_model, device, train_loader, optimizer_weight, epoch)
-        test_acc = test(weight_model, device, test_loader)
-        weight_train_acc.append(acc)
-        weight_test_acc.append(test_acc)
-        logger.info(f"Weight Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    if TRAIN_WEIGHT_MODEL:
+        logger.info("\nTraining Weight-level Popup Model (Original Edge-Popup)")
+        logger.info(f"Weight Model - Initial Train Accuracy: {test(weight_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(weight_model, device, train_loader, optimizer_weight, epoch)
+            test_acc = test(weight_model, device, test_loader)
+            weight_train_acc.append(acc)
+            weight_test_acc.append(test_acc)
+            logger.info(f"Weight Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
     
-    logger.info("\nTraining Standard MLP Model")
-    logger.info(f"Standard Model - Initial Train Accuracy: {test(standard_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(standard_model, device, train_loader, optimizer_standard, epoch)
-        test_acc = test(standard_model, device, test_loader)
-        standard_train_acc.append(acc)
-        standard_test_acc.append(test_acc)
-        logger.info(f"Standard MLP - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    if TRAIN_STANDARD_MODEL:
+        logger.info("\nTraining Standard MLP Model")
+        logger.info(f"Standard Model - Initial Train Accuracy: {test(standard_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(standard_model, device, train_loader, optimizer_standard, epoch)
+            test_acc = test(standard_model, device, test_loader)
+            standard_train_acc.append(acc)
+            standard_test_acc.append(test_acc)
+            logger.info(f"Standard MLP - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
 
     # ----------------------------
     # Plotting the results
     # ----------------------------
     epochs_range = range(1, epochs + 1)
     plt.figure(figsize=(12, 5))
-    
-    # Global title with the size of the hidden layer
     plt.suptitle(f"2 Hidden Layers size: {hidden_dim}", fontsize=16)
     
-    # Plot training accuracy
+    if TRAIN_NEURON_MODEL:
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs_range, neuron_train_acc, label='Neuron-level Train Accuracy')
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs_range, neuron_test_acc, label='Neuron-level Test Accuracy')
+    
+    if TRAIN_WEIGHT_MODEL:
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs_range, weight_train_acc, label='Weight-level Train Accuracy')
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs_range, weight_test_acc, label='Weight-level Test Accuracy')
+    
+    if TRAIN_STANDARD_MODEL:
+        plt.subplot(1, 2, 1)
+        plt.plot(epochs_range, standard_train_acc, label='Standard MLP Train Accuracy')
+        plt.subplot(1, 2, 2)
+        plt.plot(epochs_range, standard_test_acc, label='Standard MLP Test Accuracy')
+
     plt.subplot(1, 2, 1)
-    plt.plot(epochs_range, neuron_train_acc, label='Neuron-level Train Accuracy')
-    plt.plot(epochs_range, weight_train_acc, label='Weight-level Train Accuracy')
-    plt.plot(epochs_range, standard_train_acc, label='Standard MLP Train Accuracy')
     plt.title('Training Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
     plt.legend()
-    
-    # Plot test accuracy
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.subplot(1, 2, 2)
-    plt.plot(epochs_range, neuron_test_acc, label='Neuron-level Test Accuracy')
-    plt.plot(epochs_range, weight_test_acc, label='Weight-level Test Accuracy')
-    plt.plot(epochs_range, standard_test_acc, label='Standard MLP Test Accuracy')
     plt.title('Test Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
     plt.legend()
     
-    plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust layout to fit the global title
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
     
     # Save the plot image in the results directory
     plot_path = os.path.join(results_dir, 'training_results.png')
@@ -358,7 +369,12 @@ if __name__ == "__main__":
 
     # Dimensions (28x28 images, 10 classes)
     input_dim = 28 * 28
-    hidden_dim = 2048  # Size of hidden layers
+    hidden_dim = 256  # Size of hidden layers
     output_dim = 10
+
+    # Models to train
+    TRAIN_NEURON_MODEL = True
+    TRAIN_WEIGHT_MODEL = False
+    TRAIN_STANDARD_MODEL = False
 
     main()

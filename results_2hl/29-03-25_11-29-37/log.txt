@@ -1,0 +1,26 @@
+11-29-37 - Experiment started
+11-29-38 - Using device: cuda
+11-29-38 - Configuration saved to results_2hl\29-03-25_11-29-37\config.txt
+11-29-38 - Training Neuron-level Popup Model
+11-29-43 - Neuron Model - Initial Train Accuracy: 16.56%
+11-29-48 - Epoch 1: Train Loss: 1.8846, Train Accuracy: 42.52%
+11-29-49 - Neuron Model - Epoch 1: Test Accuracy: 44.33%
+11-29-55 - Epoch 2: Train Loss: 1.8550, Train Accuracy: 44.84%
+11-29-56 - Neuron Model - Epoch 2: Test Accuracy: 45.74%
+11-30-02 - Epoch 3: Train Loss: 1.8543, Train Accuracy: 44.73%
+11-30-04 - Neuron Model - Epoch 3: Test Accuracy: 43.81%
+11-30-11 - Epoch 4: Train Loss: 1.8486, Train Accuracy: 43.56%
+11-30-12 - Neuron Model - Epoch 4: Test Accuracy: 43.71%
+11-30-19 - Epoch 5: Train Loss: 1.8422, Train Accuracy: 43.10%
+11-30-20 - Neuron Model - Epoch 5: Test Accuracy: 42.43%
+11-30-27 - Epoch 6: Train Loss: 1.8430, Train Accuracy: 43.64%
+11-30-28 - Neuron Model - Epoch 6: Test Accuracy: 43.33%
+11-30-35 - Epoch 7: Train Loss: 1.8423, Train Accuracy: 43.50%
+11-30-36 - Neuron Model - Epoch 7: Test Accuracy: 43.01%
+11-30-43 - Epoch 8: Train Loss: 1.8425, Train Accuracy: 43.61%
+11-30-44 - Neuron Model - Epoch 8: Test Accuracy: 43.47%
+11-30-51 - Epoch 9: Train Loss: 1.8417, Train Accuracy: 43.62%
+11-30-52 - Neuron Model - Epoch 9: Test Accuracy: 43.28%
+11-30-59 - Epoch 10: Train Loss: 1.8403, Train Accuracy: 43.86%
+11-31-00 - Neuron Model - Epoch 10: Test Accuracy: 43.89%
+11-31-00 - Plot saved to results_2hl\29-03-25_11-29-37\training_results.png
