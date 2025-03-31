@@ -202,12 +202,6 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info(f"Using device: {device}")
     
-    # Hyperparameters
-    batch_size = 64
-    epochs = 10
-    k = 0.5  # Fraction of neurons/weights to keep for popup models
-    learning_rate = 0.01
-    
     # Data preparation: Fashion MNIST
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -217,11 +211,6 @@ def main():
     test_dataset = datasets.FashionMNIST('./data', train=False, download=True, transform=transform)
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
-    
-    # Dimensions (28x28 images, 10 classes)
-    input_dim = 28 * 28
-    hidden_dim = 50
-    output_dim = 10
 
     # ----------------------------
     # Save configuration details
@@ -269,32 +258,35 @@ def main():
     # ----------------------------
     # Training and evaluation loop  
     # ----------------------------
-    logger.info("Training Neuron-level Popup Model")
-    logger.info(f"Neuron Model - Initial Train Accuracy: {test(neuron_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(neuron_model, device, train_loader, optimizer_neuron, epoch)
-        test_acc = test(neuron_model, device, test_loader)
-        neuron_train_acc.append(acc)
-        neuron_test_acc.append(test_acc)
-        logger.info(f"Neuron Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    if TRAIN_NEURON_MODEL:
+        logger.info("Training Neuron-level Popup Model")
+        logger.info(f"Neuron Model - Initial Train Accuracy: {test(neuron_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(neuron_model, device, train_loader, optimizer_neuron, epoch)
+            test_acc = test(neuron_model, device, test_loader)
+            neuron_train_acc.append(acc)
+            neuron_test_acc.append(test_acc)
+            logger.info(f"Neuron Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
     
-    logger.info("\nTraining Weight-level Popup Model (Original Edge-Popup)")
-    logger.info(f"Weight Model - Initial Train Accuracy: {test(weight_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(weight_model, device, train_loader, optimizer_weight, epoch)
-        test_acc = test(weight_model, device, test_loader)
-        weight_train_acc.append(acc)
-        weight_test_acc.append(test_acc)
-        logger.info(f"Weight Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    if TRAIN_WEIGHT_MODEL:
+        logger.info("\nTraining Weight-level Popup Model (Original Edge-Popup)")
+        logger.info(f"Weight Model - Initial Train Accuracy: {test(weight_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(weight_model, device, train_loader, optimizer_weight, epoch)
+            test_acc = test(weight_model, device, test_loader)
+            weight_train_acc.append(acc)
+            weight_test_acc.append(test_acc)
+            logger.info(f"Weight Model - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
     
-    logger.info("\nTraining Standard MLP Model")
-    logger.info(f"Standard Model - Initial Train Accuracy: {test(standard_model, device, train_loader):.2f}%")
-    for epoch in range(1, epochs + 1):
-        _, acc = train(standard_model, device, train_loader, optimizer_standard, epoch)
-        test_acc = test(standard_model, device, test_loader)
-        standard_train_acc.append(acc)
-        standard_test_acc.append(test_acc)
-        logger.info(f"Standard MLP - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
+    if TRAIN_STANDARD_MODEL:
+        logger.info("\nTraining Standard MLP Model")
+        logger.info(f"Standard Model - Initial Train Accuracy: {test(standard_model, device, train_loader):.2f}%")
+        for epoch in range(1, epochs + 1):
+            _, acc = train(standard_model, device, train_loader, optimizer_standard, epoch)
+            test_acc = test(standard_model, device, test_loader)
+            standard_train_acc.append(acc)
+            standard_test_acc.append(test_acc)
+            logger.info(f"Standard MLP - Epoch {epoch}: Test Accuracy: {test_acc:.2f}%")
 
     # ----------------------------
     # Plotting the results
@@ -307,9 +299,12 @@ def main():
     
     # Plot training accuracy
     plt.subplot(1, 2, 1)
-    plt.plot(epochs_range, neuron_train_acc, label='Neuron-level Train Accuracy')
-    plt.plot(epochs_range, weight_train_acc, label='Weight-level Train Accuracy')
-    plt.plot(epochs_range, standard_train_acc, label='Standard MLP Train Accuracy')
+    if TRAIN_NEURON_MODEL:
+        plt.plot(epochs_range, neuron_train_acc, label='Neuron-level Train Accuracy')
+    if TRAIN_WEIGHT_MODEL:
+        plt.plot(epochs_range, weight_train_acc, label='Weight-level Train Accuracy')
+    if TRAIN_STANDARD_MODEL:
+        plt.plot(epochs_range, standard_train_acc, label='Standard MLP Train Accuracy')
     plt.title('Training Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
@@ -317,9 +312,12 @@ def main():
     
     # Plot test accuracy
     plt.subplot(1, 2, 2)
-    plt.plot(epochs_range, neuron_test_acc, label='Neuron-level Test Accuracy')
-    plt.plot(epochs_range, weight_test_acc, label='Weight-level Test Accuracy')
-    plt.plot(epochs_range, standard_test_acc, label='Standard MLP Test Accuracy')
+    if TRAIN_NEURON_MODEL:
+        plt.plot(epochs_range, neuron_test_acc, label='Neuron-level Test Accuracy')
+    if TRAIN_WEIGHT_MODEL:
+        plt.plot(epochs_range, weight_test_acc, label='Weight-level Test Accuracy')
+    if TRAIN_STANDARD_MODEL:
+        plt.plot(epochs_range, standard_test_acc, label='Standard MLP Test Accuracy')
     plt.title('Test Accuracy')
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
@@ -354,4 +352,21 @@ if __name__ == "__main__":
     )
     logger = logging.getLogger()
     logger.info("Experiment started")
+
+    # Hyperparameters
+    batch_size = 64
+    epochs = 10
+    k = 0.5  # Fraction of neurons/weights to keep for popup models
+    learning_rate = 0.01
+
+    # Dimensions (28x28 images, 10 classes)
+    input_dim = 28 * 28
+    hidden_dim = 8192
+    output_dim = 10
+
+    # Models to train
+    TRAIN_NEURON_MODEL = True
+    TRAIN_WEIGHT_MODEL = False
+    TRAIN_STANDARD_MODEL = False
+
     main()

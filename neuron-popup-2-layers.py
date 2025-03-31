@@ -330,7 +330,7 @@ def main():
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy (%)')
     plt.legend()
-    
+
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     
     # Save the plot image in the results directory
@@ -369,7 +369,7 @@ if __name__ == "__main__":
 
     # Dimensions (28x28 images, 10 classes)
     input_dim = 28 * 28
-    hidden_dim = 256  # Size of hidden layers
+    hidden_dim = 8192*2*2  # Size of hidden layers
     output_dim = 10
 
     # Models to train

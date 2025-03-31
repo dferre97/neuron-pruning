@@ -1,0 +1,5 @@
+12-05-21 - Experiment started
+12-05-23 - Using device: cuda
+12-05-23 - Configuration saved to results_2hl\29-03-25_12-05-21\config.txt
+12-05-27 - Training Neuron-level Popup Model
+12-10-44 - Neuron Model - Initial Train Accuracy: 12.19%
